@@ -9,6 +9,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $errors = array();
 
+    $dbh = connectDatabase();
+    // $sql = 'select * from users'
+    $sql = 'select name from users';
+    $stmt = $dbh->prepare($sql);
+    // 名前の同一バリデーション
+
+    // $stmt->bindParam(':id', $_SESSION['id']);
+    $stmt->execute();
+
+    $users = $stmt->fetchALL(PDO::FETCH_ASSOC);
+
     // バリデーション
     if ($name == '') {
         $errors[] = 'ユーザネームが未入力です';
@@ -17,6 +28,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($password == '') {
         $errors[] = 'パスワードが未入力です';
     }
+
+
+    foreach ($users as $hoge) {
+            if ($hoge["name"] == $name){
+                $errors[] = "同じユーザーネームが存在します";
+            }
+        }
 
     // バリデーション突破後
     if (empty($errors)) {
