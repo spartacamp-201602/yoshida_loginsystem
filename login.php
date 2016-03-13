@@ -48,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
         var_dump($row);
 
+        //$rowが存在したら、$_SESSION['id']に$row連想配列のキー['id']の要素を代入する。
         if ($row)
         {
             $_SESSION['id'] = $row['id'];

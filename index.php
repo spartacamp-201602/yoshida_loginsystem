@@ -16,6 +16,8 @@ if (empty($_SESSION['id']))
 $dbh = connectDatabase();
 $sql = 'select * from users where id = :id';
 $stmt = $dbh->prepare($sql);
+//sql文の:idに$_SESSIONに代入されている値を使う
+//ログイン画面で保存したsessionの値を使っている。
 $stmt->bindParam(':id', $_SESSION['id']);
 $stmt->execute();
 
@@ -35,6 +37,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 <body>
     <h1>登録したユーザーのみ閲覧可能です！</h1>
     <h2><?php echo h($user['name']) ?>さんようこそ！</h2>
+    <p><a href="edit.php">ユーザー情報編集</a></p>
     <p><a href="logout.php">ログアウト</a></p>
 </body>
 </html>
