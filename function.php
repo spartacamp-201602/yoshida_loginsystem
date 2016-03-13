@@ -1,6 +1,10 @@
-<?
+<?php
+//関数ファイル; 関数だけをまとめたファイル
+//データベース接続関数、エスケープよりなども関数として
+//定義しておくと楽になる。
 
-function connectDb()
+//データベース接続
+function connectDatabase()
 {
     try{
         $dbh = new PDO(DSN, DB_USER, DB_PASSWORD);
@@ -13,6 +17,7 @@ function connectDb()
     }
 }
 
+//エスケープ処理
 function h($s)
 {
     return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
