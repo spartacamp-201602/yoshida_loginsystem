@@ -24,21 +24,45 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 //ユーザー情報の編集
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-$dbh = connectDatabase();
-// $sql = 'select * from users'
-$sql = 'select name from users';
-$stmt = $dbh->prepare($sql);
-// 名前の同一バリデーション
+    $dbh = connectDatabase();
+    // $sql = 'select * from users'
+    $sql = 'select name from users';
+    $stmt = $dbh->prepare($sql);
+    // 名前の同一バリデーション
 
-// $stmt->bindParam(':id', $_SESSION['id']);
-$stmt->execute();
+    // $stmt->bindParam(':id', $_SESSION['id']);
+    $stmt->execute();
 
-$users = $stmt->fetchALL(PDO::FETCH_ASSOC);
-// var_dump($user);
+    $users = $stmt->fetchALL(PDO::FETCH_ASSOC);
+    // var_dump($user);
+
     $name = $_POST['name'];
     $password = $_POST['password'];
 
     $errors = array();
+
+    // $sql = 'select * from users where name = :name';
+    // $dbh = connectDatabase();
+    // $stmt = $dbh->prepare($sql);
+    // $stmt->bindParam(":name", $name);
+    // $stmt->execute();
+    // $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    // //レコードが存在すればレコードの中身は配列で入っている
+    // //存在しない場合は,falseで入っている
+    // if ($row) {
+    //     $errors[] = "同じユーザーネームが存在します";
+    // }
+
+    if ($user["name"] != $name){
+
+        foreach ($users as $hoge) {
+            var_dump($hoge);
+            echo '<hr>';
+            if ($hoge["name"] == $name){
+                $errors[] = "同じユーザーネームが存在します";
+            }
+        }
+    }
 
     if ($name == '') {
         $errors[] = 'ユーザネームが未入力です';
@@ -47,22 +71,6 @@ $users = $stmt->fetchALL(PDO::FETCH_ASSOC);
     if ($password == '') {
         $errors[] = 'パスワードが未入力です';
     }
-    if ($user["name"] != $name){
-    foreach ($users as $user) {
-    if ($user["name"] == $name){
-        $errors[] = "同じユーザーネームが存在します";
-
-    }
-}
-}
-
-
-
-
-    //同一のユーザー名のバリデーション
-    // if ($name_validation == $name) {
-    //     $errors[] = '同一のユーザー名が登録されています。'
-    // }
 
     if (empty($errors)) {
         $dbh = connectDatabase();
