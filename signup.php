@@ -79,8 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php endif; ?>
 
     <form action="" method="post">
-        ユーザネーム: <input type="text" name="name"><br>
-        パスワード: <input type="text" name="password"><br>
+        ユーザネーム: <input type="text" name="name" value="<?php echo $name; ?>"><br>
+        パスワード: <input type="text" name="password" value="<?php echo $password; ?>"><br>
         <input type="submit" value="新規登録">
     </form>
     <a href="login.php">ログインはこちら</a>
